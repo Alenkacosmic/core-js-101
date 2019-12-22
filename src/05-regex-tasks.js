@@ -35,7 +35,6 @@ function getRegexForGuid() {
   return /\{[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}\}/i;
 }
 
-
 /**
  * Returns the regexp that matches all the strings from first column
  * but of them from the second
@@ -56,7 +55,6 @@ function getRegexForGuid() {
 function getRegexForPitSpot() {
   return /p[\w ]t/;
 }
-
 
 /**
  * Returns the password validator regex.
@@ -81,7 +79,6 @@ function getRegexForPitSpot() {
 function getPasswordValidator(minLength) {
   return new RegExp(`^((?=\\w*[a-z])(?=\\w*[A-Z])(?=\\w*[0-9])[a-zA-Z0-9]{${minLength},})$`);
 }
-
 
 module.exports = {
   getRegexForGuid,
