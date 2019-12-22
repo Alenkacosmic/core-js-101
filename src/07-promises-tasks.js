@@ -102,8 +102,7 @@ function chainPromises(array, action) {
   return new Promise((resolve) => {
     const promisesMe = [];
     array.forEach((element) => {
-      element
-        .then((value) => promisesMe.push(value));
+      element.then((value) => promisesMe.push(value));
     });
     resolve(promisesMe);
   })
