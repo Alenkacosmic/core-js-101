@@ -26,7 +26,6 @@ function Rectangle(width, height) {
   this.getArea = () => this.width * this.height;
 }
 
-
 /**
  * Returns the JSON representation of specified object
  *
@@ -53,10 +52,9 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  return Object.setPrototypeOf(JSON.parse(json), proto);
 }
-
 
 /**
  * Css selectors builder
@@ -113,35 +111,72 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  result: '',
+  entered: '',
+  elementMe: false,
+  idMe: false,
+  pseudoMe: false,
+  elementErr: Error('Element, id and pseudo-element should not occur more then one time inside the selector'),
+  rulesErr: Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'),
+  element(value) {
+    const {
+      elementMe, elementErr, rulesErr, entered,
+    } = this;
+    if (elementMe) throw elementErr;
+    if (entered !== '') throw rulesErr;
+    return {
+      ...this, entered: 'elem', elementMe: true, result: `${this.result}${value}`,
+    };
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const {
+      idMe, elementErr, rulesErr, entered,
+    } = this;
+    if (idMe) throw elementErr;
+    if (entered === 'class' || entered === 'pseudoElem') throw rulesErr;
+    return {
+      ...this, entered: 'id', idMe: true, result: `${this.result}#${value}`,
+    };
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const { rulesErr, entered } = this;
+    if (entered === 'attr') throw rulesErr;
+    return { ...this, entered: 'class', result: `${this.result}.${value}` };
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const { rulesErr, entered } = this;
+    if (entered === 'pseudoClass') throw rulesErr;
+    return { ...this, entered: 'attr', result: `${this.result}[${value}]` };
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    const { rulesErr, entered } = this;
+    if (entered === 'pseudoElem') throw rulesErr;
+    return { ...this, entered: 'pseudoClass', result: `${this.result}:${value}` };
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    const { pseudoMe, elementErr } = this;
+    if (pseudoMe) throw elementErr;
+    return {
+      ...this, entered: 'pseudoElem', pseudoMe: true, result: `${this.result}::${value}`,
+    };
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    return {
+      ...this,
+      result: `${selector1.result} ${combinator} ${selector2.result}`,
+    };
+  },
+
+  stringify() {
+    return this.result;
   },
 };
-
 
 module.exports = {
   Rectangle,

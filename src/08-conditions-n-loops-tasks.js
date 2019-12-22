@@ -38,7 +38,6 @@ function getFizzBuzz(num) {
   return num;
 }
 
-
 /**
  * Returns the factorial of the specified integer n.
  *
@@ -53,7 +52,6 @@ function getFizzBuzz(num) {
 function getFactorial(n) {
   return (n !== 1) ? n * getFactorial(n - 1) : 1;
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -70,7 +68,6 @@ function getFactorial(n) {
 function getSumBetweenNumbers(n1, n2) {
   return (((n2 - n1) + 1) * (n1 + n2)) / 2;
 }
-
 
 /**
  * Returns true, if a triangle can be built with the specified sides a, b, c
@@ -93,7 +90,6 @@ function isTriangle(a, b, c) {
   }
   return false;
 }
-
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -131,7 +127,6 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Returns true, if point lies inside the circle, otherwise false.
  * Circle is an object of
@@ -162,7 +157,6 @@ function isInsideCircle(/* circle, point */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
  *
@@ -177,7 +171,6 @@ function isInsideCircle(/* circle, point */) {
 function findFirstSingleChar(/* str */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the string representation of math interval,
@@ -205,7 +198,6 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Reverse the specified string (put all chars in reverse order)
  *
@@ -222,7 +214,6 @@ function reverseString(str) {
   return str.split('').reverse().join('');
 }
 
-
 /**
  * Reverse the specified integer number (put all digits in reverse order)
  *
@@ -238,7 +229,6 @@ function reverseString(str) {
 function reverseInteger(num) {
   return (parseFloat(num.toString().split('').reverse().join('')) * Math.sign(num));
 }
-
 
 /**
  * Validates the CCN (credit card number) and return true if CCN is valid
@@ -282,7 +272,6 @@ function getDigitalRoot(/* num */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
  * Balanced means that is, whether it consists entirely of pairs of opening/closing brackets
@@ -304,10 +293,26 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
+  };
+  const store = [];
+  const arr = str.split('');
+  for (let i = 0; i < arr.length; i += 1) {
+    if (brackets[arr[i]]) {
+      store.push(arr[i]);
+    } else if (brackets[store[store.length - 1]] === arr[i]) {
+      store.pop();
+    } else if (brackets[store[store.length - 1]] !== arr[i]) {
+      return false;
+    }
+  }
+  return store.length === 0;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -329,10 +334,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
-
 
 /**
  * Returns the commom directory path for specified array of full filenames.
@@ -349,7 +353,6 @@ function toNaryString(/* num, n */) {
 function getCommonDirectoryPath(/* pathes */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the product of two specified matrixes.
