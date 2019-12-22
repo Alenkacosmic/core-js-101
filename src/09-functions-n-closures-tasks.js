@@ -27,7 +27,6 @@ function getComposition(f, g) {
   return (x) => f(g(x));
 }
 
-
 /**
  * Returns the math power function with the specified exponent
  *
@@ -48,7 +47,6 @@ function getPowerFunction(exponent) {
   return (number) => number ** exponent;
 }
 
-
 /**
  * Returns the polynom function of one argument based on specified coefficients.
  * See: https://en.wikipedia.org/wiki/Polynomial#Definition
@@ -65,15 +63,12 @@ function getPowerFunction(exponent) {
 function getPolynom(...integers) {
   return (x) => {
     let result = 0;
-
     for (let i = 0; i < integers.length; i += 1) {
       result += integers[integers.length - 1 - i] * x ** i;
     }
-
     return result;
   };
 }
-
 
 /**
  * Memoizes passed function and returns function
@@ -94,7 +89,6 @@ function memoize(func) {
   return () => result;
 }
 
-
 /**
  * Returns the function trying to call the passed function and if it throws,
  * retrying it specified number of attempts.
@@ -110,10 +104,17 @@ function memoize(func) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  const errorMe = [];
+  return () => {
+    for (let item = 0; item < attempts; item += 1) {
+      try {
+        return func();
+      } catch (element) { errorMe.push(element); }
+    }
+    return null;
+  };
 }
-
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -141,7 +142,6 @@ function retry(/* func, attempts */) {
 function logger(/* func, logFunc */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Return the function with partial applied arguments
