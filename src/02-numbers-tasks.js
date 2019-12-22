@@ -23,7 +23,6 @@ function getRectangleArea(width, height) {
   return Math.abs(width * height);
 }
 
-
 /**
  * Returns a circumference of circle given by radius.
  *
@@ -90,7 +89,6 @@ function getLinearEquationRoot(a, b) {
   return -(b / a);
 }
 
-
 /**
  * Returns an angle (in radians) between two vectors given by xi and yi,
  * coordinates in Cartesian plane.
@@ -130,7 +128,6 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
 function getLastDigit(value) {
   return value % 10;
 }
-
 
 /**
  * Returns a number by given string representation.
