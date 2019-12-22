@@ -43,7 +43,6 @@ function generateOdds(len) {
   });
 }
 
-
 /**
  * Returns the doubled array - elements of the specified array
  * are repeated twice using original order
@@ -59,7 +58,6 @@ function generateOdds(len) {
 function doubleArray(arr) {
   return arr.concat(arr);
 }
-
 
 /**
  * Returns an array of positive numbers from the specified array in original order
@@ -123,7 +121,6 @@ function getUpperCaseStrings(arr) {
   return arr.map((value) => value.toUpperCase());
 }
 
-
 /**
  * Returns the array of string lengths from the specified string array.
  *
@@ -167,7 +164,6 @@ function getHead(arr, n) {
   return arr.slice(0, n);
 }
 
-
 /**
  * Returns the n last items of the specified array
  *
@@ -181,7 +177,6 @@ function getHead(arr, n) {
 function getTail(arr, n) {
   return arr.slice(-n);
 }
-
 
 /**
  * Returns CSV represebtation of two-dimentional numeric array.
@@ -222,7 +217,6 @@ function toArrayOfSquares(arr) {
   return arr.map((element) => element ** 2);
 }
 
-
 /**
  * Transforms the numeric array to the according moving sum array:
  *     f[n] = x[0] + x[1] + x[2] +...+ x[n]
@@ -237,8 +231,12 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  let result = 0;
+  return arr.map((element) => {
+    result += element;
+    return result;
+  });
 }
 
 /**
@@ -256,7 +254,6 @@ function getSecondItems(arr) {
   return arr.filter((element, index) => index % 2 !== 0);
 }
 
-
 /**
  * Propagates every item in sequence its position times
  * Returns an array that consists of: one first item, two second items, tree third items etc.
@@ -271,10 +268,13 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  if (arr.length === 0) {
+    return [];
+  }
+  return arr.map((value, index) => new Array(index + 1).fill(value))
+    .reduce((accumulator, value) => accumulator.concat(value));
 }
-
 
 /**
  * Returns the 3 largest numbers from the specified array
@@ -295,7 +295,6 @@ function get3TopItems(arr) {
   }
   return arr.sort((a, b) => (a > b ? 1 : -1)).reverse().slice(0, 3);
 }
-
 
 /**
  * Returns the number of positive numbers from specified array
@@ -402,7 +401,6 @@ function toStringList(arr) {
   return arr.join();
 }
 
-
 /**
  * Sorts the specified array by country name first and city name
  * (if countries are equal) in ascending order.
@@ -462,8 +460,12 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return new Array(n).fill().map((x, y) => {
+    const myArray = new Array(n).fill(0);
+    myArray[y] = 1;
+    return myArray;
+  });
 }
 
 /**
@@ -479,8 +481,8 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  return Array.from({ length: Math.abs(end - start) + 1 }, (x, y) => start + y);
 }
 
 /**
@@ -494,8 +496,8 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return arr.filter((value, index) => arr.indexOf(value) === index);
 }
 
 /**
@@ -528,10 +530,16 @@ function distinct(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  array.map((element) => {
+    map.set(keySelector(element), (
+      map.has(keySelector(element))
+        ? map.get(keySelector(element)).concat(valueSelector(element)) : [valueSelector(element)]));
+    return null;
+  });
+  return map;
 }
-
 
 /**
  * Projects each element of the specified array to a sequence
@@ -552,7 +560,6 @@ function selectMany(arr, childrenSelector) {
   );
 }
 
-
 /**
  * Returns an element from the multidimentional array by the specified indexes.
  *
@@ -568,7 +575,6 @@ function selectMany(arr, childrenSelector) {
 function getElementByIndexes(arr, indexes) {
   return indexes.reduce((resulted, item) => resulted[item], arr);
 }
-
 
 /**
  * Swaps the head and tail of the specified array:
@@ -598,7 +604,6 @@ function swapHeadAndTail(arr) {
   }
   return tail.slice(1).concat(arr[middleIndex]).concat(head);
 }
-
 
 module.exports = {
   findElement,
